@@ -1,85 +1,70 @@
 #include <stdio.h>
-#include "main.h"
-
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 /**
- * _atoi - converts a string to an integer
- * @s: string to be converted
+ * check_num - check - string there are digit
+ * @str: array str
  *
- * Return: the int converted from the string
+ * Return: Always 0 (Success)
  */
-int _atoi(char *s)
+int check_num(char *str)
 {
-	int i, d, n, len, f, digit;
+	/*Declaring variables*/
+	unsigned int count;
 
-	i = 0;
-	d = 0;
-	n = 0;
-	len = 0;
-	f = 0;
-	digit = 0;
+	count = 0;
+	while (count < strlen(str)) /*count string*/
 
-	while (s[len] != '\0')
-		len++;
-
-	while (i < len && f == 0)
 	{
-		if (s[i] == '-')
-			++d;
-
-		if (s[i] >= '0' && s[i] <= '9')
+		if (!isdigit(str[count])) /*check if str there are digit*/
 		{
-			digit = s[i] - '0';
-			if (d % 2)
-				digit = -digit;
-			n = n * 10 + digit;
-			f = 1;
-			if (s[i + 1] < '0' || s[i + 1] > '9')
-				break;
-			f = 0;
+			return (0);
 		}
-		i++;
+
+		count++;
 	}
-
-	if (f == 0)
-		return (0);
-
-	return (n);
+	return (1);
 }
 
 /**
- * main - adds two positive number
- * @argc: number of arguments
- * @argv: array of arguents
+ * main - Print the name of the program
+ * @argc: Count arguments
+ * @argv: Arguments
  *
- * Return: 0 (Success), or 1 (Success)
+ * Return: Always 0 (Success)
  */
+
 int main(int argc, char *argv[])
+
 {
-	int sum, num, i, j, k;
 
-	sum = 0;
+	/*Declaring variables*/
+	int count;
+	int str_to_int;
+	int sum = 0;
 
-	for (i = 1; i < argc; i++)
+	count = 1;
+	while (count < argc) /*Goes through the whole array*/
 	{
-		for (j = 0; argv[i][j] != '\0'; j++)
+		if (check_num(argv[count]))
+
 		{
-			if (argv[i][j] > '9' || argv[i][j] < '0')
-			{
-				puts("Error");
-				return (1);
-			}
+			str_to_int = atoi(argv[count]); /*ATOI --> convert string to int*/
+			sum += str_to_int;
 		}
+
+		/*Condition if one of the number contains symbols that are not digits*/
+		else
+		{
+			printf("Error\n");
+			return (1);
+		}
+
+		count++;
 	}
 
-	for (k = 1; k < argc; k++)
-	{
-		num = _atoi(argv[k]);
-		if (num >= 0)
-		{
-				sum += num;
-		}
-	}
+	printf("%d\n", sum); /*print sum*/
 
-	printf("%d\n", sum);
 	return (0);
 }
